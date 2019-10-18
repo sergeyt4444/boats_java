@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package boats_server;
+package boats;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
@@ -15,15 +15,21 @@ public class map {
     
     public int width;
     public int height;
-    List<map_part> map_list;
+    ArrayList<map_part> map_list;
     
     public map() {
         width = height = 16;
         for (int i = 0; i < 256; i++)
         {
             map_part m = new map_part(i%width, i/width);
-            map_list.add(i,m);
+            map_list.add(m);
         }
+    }
+    
+    public map(int w, int h, ArrayList<map_part> arr) {
+        width = w;
+        height = h;
+        map_list = arr;
     }
     
 }
