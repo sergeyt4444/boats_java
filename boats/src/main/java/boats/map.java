@@ -15,7 +15,7 @@ public class map {
     
     public int width;
     public int height;
-    ArrayList<map_part> map_list;
+    public ArrayList<map_part> map_list;
     
     public map() {
         width = height = 16;
@@ -30,6 +30,15 @@ public class map {
         width = w;
         height = h;
         map_list = arr;
+    }
+    
+    public void print() {
+        if (map_list != null) {
+            System.out.println("Width: " + width + ", height: " + height);
+            for (map_part mp : map_list) {
+                System.out.println(mp);
+            }
+        }
     }
     
 }
