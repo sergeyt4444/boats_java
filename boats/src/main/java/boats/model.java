@@ -61,7 +61,7 @@ public class model {
         update();
     }
     
-    public void cleatMap() {
+    public void clearMap() {
         inf.clearMap();
         update();
     }

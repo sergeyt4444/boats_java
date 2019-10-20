@@ -6,6 +6,7 @@
 package boats;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -30,6 +31,15 @@ public class map {
         width = w;
         height = h;
         map_list = arr;
+    }
+    
+    public void placeBoats(List<boat_table> boats) {
+        for (map_part mp : map_list) {
+            mp.setCur_boat("");
+        }
+        for (boat_table boat : boats) {
+            map_list.get(boat.getX_cur() + width * boat.getY_cur()).setCur_boat(boat.getName());
+        }
     }
     
     public void print() {

@@ -92,6 +92,6 @@ public class infr {
     }
     
     public void clearMap() {
-        sessionFactory.openSession().createQuery("DELETE From map");
+        sessionFactory.openSession().createQuery("DELETE From map_part").executeUpdate();
     }
 }

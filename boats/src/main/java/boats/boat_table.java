@@ -17,7 +17,7 @@ import javax.persistence.*;
 public class boat_table {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
     @Column (name = "name")
@@ -34,6 +34,21 @@ public class boat_table {
     
     @Column (name = "y_fin")
     private int y_fin;
+    
+    public boat_table() {
+        
+    }
+    
+    public boat_table(String name, int x1, int y1, int x2, int y2) {
+        if (x1 >= 0 && x2 >= 0 && y1 >= 0 && y2 >= 0)
+        {
+            this.name = name;
+            x_cur = x1;
+            y_cur = y1;
+            x_fin = x2;
+            y_fin = y2;
+        }
+    }
 
     public void setId(int id) {
         this.id = id;

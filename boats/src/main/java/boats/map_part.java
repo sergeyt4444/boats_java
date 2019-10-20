@@ -30,19 +30,20 @@ public class map_part {
     @Column (name = "isWater")
     private int isWater;
     
-//    private String cur_boat;
+    @Transient
+    private String cur_boat;
     
     public map_part() {
         x = y = 0;
         isWater= 1;
-//        cur_boat = "";
+        cur_boat = "";
     }
 
     public map_part(int i, int i0) {
         x = i;
         y = i0;
         isWater = 1;
-//        cur_boat = "";
+        cur_boat = "";
     }
 
     public int getId() {
@@ -61,9 +62,9 @@ public class map_part {
         return isWater;
     }
 
-//    public String getCur_boat() {
-//        return cur_boat;
-//    }
+    public String getCur_boat() {
+        return cur_boat;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -81,21 +82,14 @@ public class map_part {
         this.isWater = isWater;
     }
 
-//    public void setCur_boat(String cur_boat) {
-//        this.cur_boat = cur_boat;
-//    }
+    public void setCur_boat(String cur_boat) {
+        this.cur_boat = cur_boat;
+    }
     
     @Override
     public String toString() {
-        String str1 = "), block of land, ";
-        if (this.isWater == 1) {
-            str1 = "), block of water, ";
-        }
-        String str2 = "is not occupied";
-//        if (!cur_boat.equals("")) {
-//            str2 = "occupied by boat" + cur_boat;
-//        }
-        return "Coordinates: (" + this.x + ", " + this.y + str1 + str2;
+        return "Coordinates: (" + this.x + ", " + this.y + ((this.isWater == 1)?"), block of water":"), block of land") 
+                + ((cur_boat.equals(""))?", is not occupied": ", occupied by boat " + cur_boat);
     }
     
     
