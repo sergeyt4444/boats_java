@@ -65,9 +65,16 @@ public class test_main {
         }
         testmap.print();
 //        m.clearMap();
-        
-        
-        
+//        map_part mp = new map_part(4,0);
+//        m.insertMap(mp);
+//        boats = m.getBoats();
+//        testmap.map_list = m.getMap();
+//        testmap.placeBoats(boats);
+//        
+//        for (boat_table b : boats) {
+//            System.out.println(b);
+//        }        
+//        testmap.print();
     }
     
 }
