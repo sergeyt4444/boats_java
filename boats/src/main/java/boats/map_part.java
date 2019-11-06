@@ -5,6 +5,7 @@
  */
 package boats;
 
+import java.util.List;
 import javax.persistence.*;
 
 
@@ -85,6 +86,7 @@ public class map_part {
     public void setCur_boat(String cur_boat) {
         this.cur_boat = cur_boat;
     }
+
     
     @Override
     public String toString() {
