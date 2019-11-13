@@ -19,4 +19,5 @@ public class path {
     public path() {
         boat_path = new LinkedList<>();
     }
+
 }

@@ -22,6 +22,12 @@ public class full_map {
     public full_map () {
         mod = BModel.build();
     }
+
+    public full_map (map m1, List<boat_table> b1) {
+        mod = BModel.build();
+        m = m1;
+        boats = b1;
+    }
     
     public List<map_part> getNear(map_part mp) {
         List<map_part> tmp = new ArrayList<>();
@@ -29,7 +35,7 @@ public class full_map {
         int mp_y = mp.getY();
         for (int i = -1; i <= 1; i++)
             for (int j = -1; j <=1; j++) {
-                if (i != 0 || j != 0)
+                if ((i != 0 || j != 0) && mp_x + j > -1 && mp_y + i > -1 && mp_x + j < m.width && mp_y + i < m.height)
                     tmp.add(m.map_list.get(mp_x + j + (mp_y + i)*m.width));
             }
         return tmp;
@@ -41,7 +47,7 @@ public class full_map {
         int y = c.y;
         for (int i = -1; i <= 1; i++)
             for (int j = -1; j <=1; j++) {
-                if (i != 0 || j != 0) {
+                if ((i != 0 || j != 0) && x + j > -1 && y + i > -1 && x + j < m.width && y + i < m.height) {
                     Pair p = new Pair(x + j, y + i);
                     tmp.add(p);
                 }
@@ -63,11 +69,13 @@ public class full_map {
     
     public path getPath(boat_table boat){
         int[][] matrix = mapToMatrix();
-        for (int i = 0; i < m.height; i++)
+        for (int i = 0; i < m.height; i++) {
             for (int j = 0; j < m.width; j++) {
                 if (matrix[i][j] == 0)
                     matrix[i][j] = Integer.MAX_VALUE;
             }
+        }
+
         int fin_x = boat.getX_fin();
         int fin_y = boat.getY_fin();
         matrix[fin_y][fin_x] = 0;
@@ -76,7 +84,8 @@ public class full_map {
         queue.add(p);
         path pth = new path();
         pth.boat_name = boat.getName();
-        while ((p = queue.remove()) != null) {
+        while (!(queue.isEmpty())) {
+            p = queue.remove();
             List<Pair> pairs = getNearPairs(p);
             for (Pair pair : pairs) {
                 if (matrix[pair.y][pair.x] > matrix[p.y][p.x] + 1) {
@@ -85,13 +94,19 @@ public class full_map {
                 }
             }
         }
-        map_part tmp_map_part = m.map_list.get(boat.getX_cur() + boat.getY_cur());
-        while (tmp_map_part.getX()!= fin_x && tmp_map_part.getY() != fin_y) {
+//        for (int i = 0; i < m.height; i++) {
+//            for (int j = 0; j < m.width; j++) {
+//                System.out.print(matrix[i][j] + ", ");
+//            }
+//            System.out.println(";");
+//        }
+        map_part tmp_map_part = m.map_list.get(boat.getX_cur() + boat.getY_cur() * m.width);
+        while (tmp_map_part.getX()!= fin_x || tmp_map_part.getY() != fin_y) {
             Pair path_pair = new Pair(tmp_map_part.getX(), tmp_map_part.getY());
             List<Pair> near = getNearPairs(path_pair);
             int dist = matrix[path_pair.y][path_pair.x];
             for (Pair pair : near) {
-                if (matrix[pair.y][pair.x] < matrix[path_pair.y][path_pair.x]) {
+                if (matrix[pair.y][pair.x] < matrix[path_pair.y][path_pair.x] && matrix[pair.y][pair.x] > -1) {
                     path_pair.x = pair.x;
                     path_pair.y = pair.y;
                 }
@@ -176,8 +191,8 @@ class Pair {
         x = y = 0;
     }
     
-    public Pair (int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Pair (int x1, int y1) {
+        x = x1;
+        y = y1;
     }
 }
