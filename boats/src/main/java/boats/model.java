@@ -5,6 +5,9 @@
  */
 package boats;
 
+import boat_table.boat_table;
+import map_part.map_part;
+
 import java.util.ArrayList;
 import java.util.List;
 

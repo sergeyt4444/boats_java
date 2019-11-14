@@ -3,7 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package boats;
+package full_map;
+
+import boat_table.boat_table;
+import boats.BModel;
+import boats.Pair;
+import boats.model;
+import boats.path;
+import map.map;
+import map_part.map_part;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -14,7 +22,7 @@ import java.util.Queue;
  *
  * @author serge
  */
-public class full_map {
+public class full_map implements abstract_full_map{
     public map m;
     public List<boat_table> boats;
     public model mod;
@@ -65,56 +73,6 @@ public class full_map {
                 else matrix [i][j] = -1;
             }
         return matrix;
-    }
-    
-    public path getPath(boat_table boat){
-        int[][] matrix = mapToMatrix();
-        for (int i = 0; i < m.height; i++) {
-            for (int j = 0; j < m.width; j++) {
-                if (matrix[i][j] == 0)
-                    matrix[i][j] = Integer.MAX_VALUE;
-            }
-        }
-
-        int fin_x = boat.getX_fin();
-        int fin_y = boat.getY_fin();
-        matrix[fin_y][fin_x] = 0;
-        Pair p = new Pair (fin_x, fin_y);
-        Queue<Pair> queue = new LinkedList<>();
-        queue.add(p);
-        path pth = new path();
-        pth.boat_name = boat.getName();
-        while (!(queue.isEmpty())) {
-            p = queue.remove();
-            List<Pair> pairs = getNearPairs(p);
-            for (Pair pair : pairs) {
-                if (matrix[pair.y][pair.x] > matrix[p.y][p.x] + 1) {
-                    matrix[pair.y][pair.x] = matrix[p.y][p.x] + 1;
-                    queue.add(pair);
-                }
-            }
-        }
-//        for (int i = 0; i < m.height; i++) {
-//            for (int j = 0; j < m.width; j++) {
-//                System.out.print(matrix[i][j] + ", ");
-//            }
-//            System.out.println(";");
-//        }
-        map_part tmp_map_part = m.map_list.get(boat.getX_cur() + boat.getY_cur() * m.width);
-        while (tmp_map_part.getX()!= fin_x || tmp_map_part.getY() != fin_y) {
-            Pair path_pair = new Pair(tmp_map_part.getX(), tmp_map_part.getY());
-            List<Pair> near = getNearPairs(path_pair);
-            int dist = matrix[path_pair.y][path_pair.x];
-            for (Pair pair : near) {
-                if (matrix[pair.y][pair.x] < matrix[path_pair.y][path_pair.x] && matrix[pair.y][pair.x] > -1) {
-                    path_pair.x = pair.x;
-                    path_pair.y = pair.y;
-                }
-            }
-            tmp_map_part = m.map_list.get(path_pair.x + m.width * path_pair.y);
-            pth.boat_path.add(tmp_map_part);
-        }
-        return pth;
     }
     
     public int moveBoat(boat_table boat, map_part mp) {
@@ -183,16 +141,3 @@ public class full_map {
 }
 
 
-class Pair {
-    public int x;
-    public int y;
-    
-    public Pair () {
-        x = y = 0;
-    }
-    
-    public Pair (int x1, int y1) {
-        x = x1;
-        y = y1;
-    }
-}

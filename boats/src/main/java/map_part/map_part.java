@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package boats;
+package map_part;
 
 import java.util.List;
 import javax.persistence.*;
@@ -16,7 +16,7 @@ import javax.persistence.*;
  */
 @Table (name = "map")
 @Entity
-public class map_part {
+public class map_part implements abstract_map_part {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

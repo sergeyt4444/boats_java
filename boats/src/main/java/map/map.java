@@ -3,7 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package boats;
+package map;
+
+import boat_table.boat_table;
+import map_part.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +15,7 @@ import java.util.List;
  *
  * @author serge
  */
-public class map {
+public class map implements abstract_map{
     
     public int width;
     public int height;
@@ -23,6 +26,8 @@ public class map {
         for (int i = 0; i < 256; i++)
         {
             map_part m = new map_part(i%width, i/width);
+            m.setX(i%width);
+            m.setY(i/width);
             map_list.add(m);
         }
     }

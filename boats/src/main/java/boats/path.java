@@ -5,6 +5,8 @@
  */
 package boats;
 
+import map_part.map_part;
+
 import java.util.LinkedList;
 import java.util.Queue;
 

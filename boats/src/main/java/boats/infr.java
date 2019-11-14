@@ -7,6 +7,9 @@ package boats;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import boat_table.boat_table;
+import map_part.map_part;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;

@@ -1,6 +1,10 @@
 package test;
 
+import boat_table.boat_table;
 import boats.*;
+import full_map.full_map;
+import map.map;
+import algorithm.*;
 
 import java.util.List;
 
@@ -13,7 +17,9 @@ public class test_main2 {
         testmap.placeBoats(boats);
         full_map fm = new full_map(testmap, boats);
         path p = new path();
-        p = fm.getPath(fm.boats.get(1));
+        algorithm alg = new algorithm();
+        p = alg.getPath(fm, fm.boats.get(1));
+
 
     }
 }

@@ -5,7 +5,10 @@
  */
 package test;
 
+import boat_table.boat_table;
 import boats.*;
+import map.map;
+
 import java.util.List;
 
 /**

@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package boats;
+package boat_table;
 
 import javax.persistence.*;
+import boats.Pair;
 
 /**
  *
@@ -14,7 +15,7 @@ import javax.persistence.*;
 
 @Table (name = "boats")
 @Entity
-public class boat_table {
+public class boat_table implements abstract_boat_table {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,12 +59,24 @@ public class boat_table {
         this.name = name;
     }
 
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public Pair getCur_Coordinates() {
+        return new Pair(x_cur, y_cur);
+    }
+
+    @Override
+    public Pair getFin_Coordinates() {
+        return new Pair(x_fin, y_fin);
     }
 
     public int getX_cur() {
