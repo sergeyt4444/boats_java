@@ -41,9 +41,8 @@ public class algorithm implements abstract_algorithm{
     }
 
     @Override
-    public path getPath(full_map fm, boat_table boat){
+    public void findPath(full_map fm, boat_table boat){
         path pth = new path();
-        pth.boat_name = boat.getName();
         int[][] matrix = getWavesMatrix(fm, boat);
         int fin_x = boat.getX_fin();
         int fin_y = boat.getY_fin();
@@ -61,48 +60,43 @@ public class algorithm implements abstract_algorithm{
             tmp_map_part = fm.m.map_list.get(path_pair.x + fm.m.width * path_pair.y);
             pth.boat_path.add(tmp_map_part);
         }
-        return pth;
+        boat.boat_path = pth;
     }
 
     @Override
-    public void moveBoat(full_map fm, path path1) {
-        if (path1.boat_name != null) {
-            boat_table boat = null;
-            for (boat_table b : fm.boats) {
-                if (b.getName().equals(path1.boat_name))
-                    boat = b;
-            }
-            if (!path1.boat_path.isEmpty()) {
-                if (path1.boat_path.peek().getCur_boat() == "")
-                    fm.moveBoatby1(boat, path1.boat_path.remove());
-                else {
-                    Pair p = new Pair(boat.getX_cur(), boat.getY_cur());
-                    List<Pair> near = fm.getNearPairs(p);
-                    int [][] matrix = getWavesMatrix(fm, boat);
-                    int cur = matrix[boat.getY_cur()][boat.getX_cur()] + 2;
-                    for (Pair pair : near) {
-                        if (matrix[pair.y][pair.x] < cur && matrix[pair.y][pair.x] > -1 &&
-                                fm.m.map_list.get(pair.x + pair.y * fm.m.width).getCur_boat() == "") {
-                            cur = matrix[pair.y][pair.x];
-                            p = pair;
-                        }
-                    }
-                    fm.moveBoatby1(boat, fm.m.map_list.get(p.x + p.y * fm.m.width));
-                    path1.boat_path.clear();
-                }
-            }
+    public void moveBoat(full_map fm, boat_table boat) {
+        if (boat.boat_path == null) {
+            boat.boat_path = new path();
+        }
+        path path1 = boat.boat_path;
+        if (!path1.boat_path.isEmpty()) {
+            if (path1.boat_path.peek().getCur_boat() == "")
+                fm.moveBoatby1(boat, path1.boat_path.remove());
             else {
-                if (!(boat.getX_cur() == boat.getX_fin() && boat.getY_cur() == boat.getY_fin()))
-                {
-                    path1 = getPath(fm, boat);
-                    moveBoat(fm, path1);
+                Pair p = new Pair(boat.getX_cur(), boat.getY_cur());
+                List<Pair> near = fm.getNearPairs(p);
+                int[][] matrix = getWavesMatrix(fm, boat);
+                int cur = matrix[boat.getY_cur()][boat.getX_cur()] + 2;
+                for (Pair pair : near) {
+                    if (matrix[pair.y][pair.x] < cur && matrix[pair.y][pair.x] > -1 &&
+                            fm.m.map_list.get(pair.x + pair.y * fm.m.width).getCur_boat() == "") {
+                        cur = matrix[pair.y][pair.x];
+                        p = pair;
+                    }
                 }
+                fm.moveBoatby1(boat, fm.m.map_list.get(p.x + p.y * fm.m.width));
+                path1.boat_path.clear();
             }
-            if (boat.getX_cur() == boat.getX_fin() && boat.getY_cur() == boat.getY_fin())
-            {
-                fm.mod.deleteBoat(boat);
+        } else {
+            if (!(boat.getX_cur() == boat.getX_fin() && boat.getY_cur() == boat.getY_fin())) {
+                findPath(fm, boat);
+                moveBoat(fm, boat);
             }
         }
+        if (boat.getX_cur() == boat.getX_fin() && boat.getY_cur() == boat.getY_fin()) {
+            fm.deleteBoat(boat);
+        }
+
     }
 
 

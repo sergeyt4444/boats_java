@@ -15,7 +15,6 @@ import java.util.Queue;
  * @author serge
  */
 public class path {
-    public String boat_name;
     public Queue<map_part> boat_path;
     
     public path() {

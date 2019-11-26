@@ -136,7 +136,12 @@ public class full_map implements abstract_full_map{
         }
         return 0;
     }
-    
+
+    public void deleteBoat(boat_table boat) {
+        mod.deleteBoat(boat);
+        boats = mod.getBoats();
+        m.map_list = mod.getMap();
+    }
     
 }
 

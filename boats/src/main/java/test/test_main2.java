@@ -16,9 +16,8 @@ public class test_main2 {
         testmap.map_list = m.getMap();
         testmap.placeBoats(boats);
         full_map fm = new full_map(testmap, boats);
-        path p = new path();
         algorithm alg = new algorithm();
-        p = alg.getPath(fm, fm.boats.get(1));
+        alg.findPath(fm, fm.boats.get(1));
 
 
     }

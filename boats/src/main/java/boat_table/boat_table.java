@@ -7,6 +7,7 @@ package boat_table;
 
 import javax.persistence.*;
 import boats.Pair;
+import boats.path;
 
 /**
  *
@@ -35,6 +36,9 @@ public class boat_table implements abstract_boat_table {
     
     @Column (name = "y_fin")
     private int y_fin;
+
+    @Transient
+    public path boat_path;
     
     public boat_table() {
         
