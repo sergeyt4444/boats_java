@@ -32,6 +32,7 @@ public class server {
             for (boat_table b : fm.boats) {
                 alg.moveBoat(fm, b);
             }
+
             SendNewMap(fm);
         }
 

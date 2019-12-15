@@ -89,7 +89,8 @@ public class infr {
     public void deleteBoat(boat_table boat) {
         Session session = sessionFactory.openSession();
         Transaction tx1 = session.beginTransaction();
-        session.delete(boat);
+        Object managedBoat = session.merge(boat);
+        session.delete(managedBoat);
         tx1.commit();
         session.close();
     }
