@@ -45,29 +45,34 @@ public class server {
         socket_manager sm = new socket_manager();
         sm.start();
 //        CreateListeners();
-        while(true) {
-            TimeUnit.SECONDS.sleep(5);
-            for (boat_table b : fm.boats) {
-                alg.moveBoat(fm, b);
-            }
-            for (boat_table b : fm.boats) {
-                alg.findPath(fm, b);
-            }
-            String blist;
-            blist = json.toJson(fm.boats);
-            if (sm != null && sm.allOutputs != null) {
-                for (DataOutputStream dos : sm.allOutputs) {
-                    if (dos != null) {
-                        try {
-                            dos.writeUTF(blist);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-
+        try {
+            while (true) {
+                TimeUnit.SECONDS.sleep(5);
+                for (boat_table b : fm.boats) {
+                    alg.moveBoat(fm, b);
                 }
+                for (boat_table b : fm.boats) {
+                    alg.findPath(fm, b);
+                }
+                String blist;
+                blist = json.toJson(fm.boats);
+                if (sm != null && sm.allOutputs != null) {
+                    for (DataOutputStream dos : sm.allOutputs) {
+                        if (dos != null) {
+                            try {
+                                dos.writeUTF(blist);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                    }
+                }
+                SendNewMap(fm);
             }
-            SendNewMap(fm);
+        }
+        finally {
+
         }
 
     }

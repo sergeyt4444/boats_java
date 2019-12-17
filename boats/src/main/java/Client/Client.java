@@ -113,20 +113,30 @@ public class Client  extends MainFrame {
         convertMap();
         convertRoute();
         MainFrame.JFrame.repaint();
-
-        while (true) {
-            try {
-                line = in.readUTF();
-            } catch (IOException e) {
-                e.printStackTrace();
+        try {
+            while (true) {
+                try {
+                    line = in.readUTF();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                List<boat_table> inboats = json.fromJson(line, tblist);
+                mapS.boats = inboats;
+                convertMap();
+                convertRoute();
+                MainFrame.JFrame.repaint();
             }
-            List<boat_table> inboats = json.fromJson(line, tblist);
-
-            mapS.boats = inboats;
-            convertMap();
-            convertRoute();
-            MainFrame.JFrame.repaint();
         }
+        finally {
+            if (socket != null) {
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
 
 
     }

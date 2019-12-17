@@ -15,6 +15,7 @@ import socket_listener.*;
 public class socket_manager extends Thread implements abstract_socket_manager {
 
     public static ArrayList<DataOutputStream> allOutputs;
+    public static ArrayList<Socket> allSockets;
 
     public void run() {
         allOutputs = new ArrayList<>();
@@ -29,6 +30,9 @@ public class socket_manager extends Thread implements abstract_socket_manager {
 
             while (true) {
                 socket = serverSocket.accept();
+                if (socket != null && allSockets != null) {
+                    allSockets.add(socket);
+                }
                 dis = new DataInputStream(socket.getInputStream());
                 dos = new DataOutputStream(socket.getOutputStream());
                 String map_line = json.toJson(server.fm.m);
@@ -46,7 +50,21 @@ public class socket_manager extends Thread implements abstract_socket_manager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        finally {
+            try {
+                if (serverSocket != null)
+                    serverSocket.close();
+                if (allSockets != null) {
+                    for (Socket sc : allSockets) {
+                        if (sc != null)
+                            sc.close();
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
+        }
 
     }
 
