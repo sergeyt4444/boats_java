@@ -29,6 +29,8 @@ public class full_map implements abstract_full_map{
     
     public full_map () {
         mod = BModel.build();
+        boats = new ArrayList<>();
+        m = new map();
     }
 
     public full_map (map m1, List<boat_table> b1) {
@@ -55,7 +57,7 @@ public class full_map implements abstract_full_map{
         int y = c.y;
         for (int i = -1; i <= 1; i++)
             for (int j = -1; j <=1; j++) {
-                if ((i != 0 || j != 0) && x + j > -1 && y + i > -1 && x + j < m.width && y + i < m.height) {
+                if ((i != 0 || j != 0) && (x + j) > -1 && (y + i) > -1 && (x + j) < m.width && (y + i) < m.height) {
                     Pair p = new Pair(x + j, y + i);
                     tmp.add(p);
                 }
@@ -74,6 +76,17 @@ public class full_map implements abstract_full_map{
             }
         return matrix;
     }
+
+    public int[][] mapToMatrixT() {
+        int[][] matrix = new int[m.width][m.height];
+        for (int i = 0; i < m.height; i++)
+            for (int j = 0; j < m.width; j++) {
+                if (m.map_list.get(j + i*m.width).getIsWater() == 1)
+                    matrix[j][i] = 0;
+                else matrix [j][i] = -1;
+            }
+        return matrix;
+    }
     
     public int moveBoat(boat_table boat, map_part mp) {
         
@@ -88,6 +101,9 @@ public class full_map implements abstract_full_map{
         boat.setY_cur(mp.getY());
         mp.setCur_boat(boat.getName());
         mod.updateBoat(boat);
+        boats = mod.getBoats();
+
+//        m.placeBoats(boats);
         return 0;
     }
     
@@ -118,6 +134,8 @@ public class full_map implements abstract_full_map{
         boat.setY_cur(boat_y + delta_y);
         dest.setCur_boat(boat.getName());
         mod.updateBoat(boat);
+        boats = mod.getBoats();
+//        m.placeBoats(boats);
         return 0;
     }
     

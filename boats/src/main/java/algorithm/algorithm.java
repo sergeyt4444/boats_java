@@ -96,7 +96,6 @@ public class algorithm implements abstract_algorithm{
         if (boat.getX_cur() == boat.getX_fin() && boat.getY_cur() == boat.getY_fin()) {
             fm.deleteBoat(boat);
         }
-
     }
 
 

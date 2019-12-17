@@ -5,12 +5,14 @@ import java.util.List;
 
 public class model {
 
-    ArrayList<IObserver> arrO = new ArrayList<>();
+   ArrayList<IObserver> arrO = new ArrayList<>();
+
 
         void update(){
             for (IObserver iObserver : arrO) {
                 iObserver.update();
-            }
+}
+
         }
 
         public void addObserver(IObserver o){

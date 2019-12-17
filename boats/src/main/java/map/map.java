@@ -22,10 +22,11 @@ public class map implements abstract_map{
     public ArrayList<map_part> map_list;
     
     public map() {
-        width = height = 16;
-        for (int i = 0; i < 256; i++)
+        width = height = 4;
+        map_list = new ArrayList<>();
+        for (int i = 0; i < 16; i++)
         {
-            map_part m = new map_part(i%width, i/width);
+            map_part m = new map_part();
             m.setX(i%width);
             m.setY(i/width);
             map_list.add(m);
