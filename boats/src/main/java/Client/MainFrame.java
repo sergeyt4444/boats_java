@@ -3,7 +3,12 @@ package Client;
 import java.awt.event.*;
 import javax.swing.*;
 import java.awt.*;
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 import boat_table.boat_table;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 
 public class MainFrame  extends JPanel implements IObserver {
@@ -19,6 +24,7 @@ public class MainFrame  extends JPanel implements IObserver {
     public static int endY=-1;
     public static boolean flagBotat=false;
     public static int number=0; //только для теста
+    public static DataOutputStream dout = null;
 
 
     static mapM m=new mapM();
@@ -164,7 +170,16 @@ public class MainFrame  extends JPanel implements IObserver {
                 boat.setY_cur(startY);
                 boat.setX_fin(endX);
                 boat.setY_fin(endY);
-                startX=-1;
+                Gson json = new GsonBuilder().setPrettyPrinting().create();
+                String boat_line = json.toJson(boat);
+                    try {
+                        if (dout != null) {
+                            dout.writeUTF(boat_line);
+                        }
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                    startX=-1;
                 startY=-1;
                 endX=-1;
                 endY=-1;

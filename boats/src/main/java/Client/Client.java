@@ -72,15 +72,20 @@ public class Client  extends MainFrame {
         }
         InputStream sin = null;
         OutputStream sout = null;
+        DataInputStream in = null;
+        DataOutputStream out = null;
         try {
             sin = socket.getInputStream();
             sout = socket.getOutputStream();
+            in = new DataInputStream(sin);
+            out = new DataOutputStream(sout);
+            if (sout != null) {
+                MainFrame.dout = out;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        DataInputStream in = new DataInputStream(sin);
-        DataOutputStream out = new DataOutputStream(sout);
         String line = null;
         try {
             line = in.readUTF();
