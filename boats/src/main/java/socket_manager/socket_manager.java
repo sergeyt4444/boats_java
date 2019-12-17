@@ -14,7 +14,7 @@ import socket_listener.*;
 
 public class socket_manager extends Thread implements abstract_socket_manager {
 
-    public ArrayList<DataOutputStream> allOutputs;
+    public static ArrayList<DataOutputStream> allOutputs;
 
     public void run() {
         allOutputs = new ArrayList<>();

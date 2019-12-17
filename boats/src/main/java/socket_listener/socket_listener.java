@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import server.*;
+import socket_manager.*;
 
 public class socket_listener extends Thread{
     public Socket socket;
@@ -32,7 +33,7 @@ public class socket_listener extends Thread{
         while (true) {
             String boat_line;
             try {
-                if (is != null && os != null) {
+                if (is != null && socket_manager.allOutputs != null) {
                     boat_line = is.readUTF();
                     Gson json = new GsonBuilder().setPrettyPrinting().create();
 
@@ -55,7 +56,12 @@ public class socket_listener extends Thread{
                         alg.findPath(server.fm, b3);
                     }
                     String b_list = json.toJson(server.fm.boats);
-                    os.writeUTF(b_list);
+                    for (DataOutputStream dataOutputStream : socket_manager.allOutputs)
+                    {
+                        if (dataOutputStream != null) {
+                            dataOutputStream.writeUTF(b_list);
+                        }
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
